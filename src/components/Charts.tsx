@@ -42,7 +42,13 @@ export const Charts: React.FC<ChartsProps> = ({ products, loading }) => {
     sale_price: product.sale_price,
   })).filter(item => item.y > 0);
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  interface BarTooltipProps {
+    active?: boolean;
+    payload?: { value: number }[];
+    label?: string;
+  }
+
+  const CustomTooltip = ({ active, payload, label }: BarTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <Box
@@ -66,7 +72,12 @@ export const Charts: React.FC<ChartsProps> = ({ products, loading }) => {
     return null;
   };
 
-  const ScatterTooltip = ({ active, payload }: any) => {
+  interface ScatterTooltipProps {
+    active?: boolean;
+    payload?: { payload: { name: string; x: number; y: number; price: number; sale_price?: number } }[];
+  }
+
+  const ScatterTooltip = ({ active, payload }: ScatterTooltipProps) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
