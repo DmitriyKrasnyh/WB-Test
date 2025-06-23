@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -18,11 +18,10 @@ import {
   Tooltip,
   Skeleton,
   Alert,
-  IconButton,
-} from '@mui/material';
-import { Package, TrendingUp, TrendingDown } from 'lucide-react';
+  } from '@mui/material';
+import { Package, TrendingDown } from 'lucide-react';
 import { Product, ProductFilters } from '../types/product';
-import { formatPrice, formatNumber, calculateDiscount } from '../utils/dataProcessing';
+import { formatPrice, formatNumber } from '../utils/dataProcessing';
 
 interface ProductTableProps {
   products: Product[];
@@ -166,8 +165,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
                 <EmptyState />
               ) : (
                 products.map((product) => {
-                  const discount = calculateDiscount(product);
-                  const discountPercent = product.sale_price 
+                  const discountPercent = product.sale_price
                     ? Math.round(((product.price - product.sale_price) / product.price) * 100)
                     : 0;
 

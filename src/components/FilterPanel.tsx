@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Card,
   CardContent,
@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
   Box,
-  Divider,
   InputAdornment,
   Chip,
   Grid,
@@ -33,14 +32,15 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   ]);
   const [localMinReviews, setLocalMinReviews] = useState(filters.min_reviews?.toString() || '');
 
-  const debouncedPriceChange = useCallback(
-    debounce((value: number[]) => {
-      onFiltersChange({
-        ...filters,
-        min_price: value[0] || undefined,
-        max_price: value[1] || undefined,
-      });
-    }, 300),
+  const debouncedPriceChange = useMemo(
+    () =>
+      debounce((value: number[]) => {
+        onFiltersChange({
+          ...filters,
+          min_price: value[0] || undefined,
+          max_price: value[1] || undefined,
+        });
+      }, 300),
     [filters, onFiltersChange]
   );
 
