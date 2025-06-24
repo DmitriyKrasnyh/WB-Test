@@ -1,0 +1,19 @@
+{
+  "name": "wb-api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.mjs",
+    "parse": "node scripts/parseWildberries.mjs \"кроссовки\" 5"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "got": "^12.6.1",
+    "lru-cache": "^11.1.0",
+    "mongoose": "^8.16.0",
+    "user-agents": "^1.1.580",
+    "zod": "^3.25.67"
+  },
+  "packageManager": "pnpm@10.12.3"
+}

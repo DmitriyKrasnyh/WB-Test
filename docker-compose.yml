@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    build:
+      context: ./backend        # каталог с кодом API
+      dockerfile: Dockerfile    # имя файла в backend/
+    container_name: wb-api
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/wb
+      - PORT=3001
+    ports:
+      - "3001:3001"
+
+  frontend:
+    build: ./frontend
+    container_name: wb-frontend
+    depends_on:
+      - api
+    ports:
+      - "5173:80"
+
+volumes:
+  mongo-data:

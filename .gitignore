@@ -23,3 +23,16 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# зависимости
+node_modules/
+pnpm-lock.yaml
+# сборки
+frontend/dist/
+backend/*.log
+# docker
+mongo-data/
+# ОС
+.DS_Store
+Thumbs.db
+EOF
