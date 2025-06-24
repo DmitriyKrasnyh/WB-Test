@@ -1,10 +1,18 @@
 import express from 'express';
 import cors from 'cors';
+import { existsSync } from 'fs';
+import fs from 'fs/promises';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
+
+const execFileAsync = promisify(execFile);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
+
+const DATA_FILE = 'wildberries_products.json';
 
 const generateMockProducts = () => {
   return Array.from({ length: 100 }, (_, i) => {
@@ -24,11 +32,33 @@ const generateMockProducts = () => {
   });
 };
 
-let products = generateMockProducts();
+let products = [];
 
-app.get('/api/refresh', (_req, res) => {
+async function loadProducts() {
+  if (existsSync(DATA_FILE)) {
+    try {
+      const data = await fs.readFile(DATA_FILE, 'utf8');
+      products = JSON.parse(data);
+      return;
+    } catch (err) {
+      console.error('Failed to read products file:', err);
+    }
+  }
   products = generateMockProducts();
-  res.json({ message: 'Data refreshed', count: products.length });
+}
+
+await loadProducts();
+
+app.get('/api/refresh', async (_req, res) => {
+  try {
+    await execFileAsync('node', ['scripts/parseWildberries.mjs']);
+    await loadProducts();
+    res.json({ message: 'Data refreshed', count: products.length });
+  } catch (err) {
+    console.error('Refresh failed:', err);
+    products = generateMockProducts();
+    res.status(500).json({ message: 'Refresh failed', error: String(err) });
+  }
 });
 
 app.get('/api/products', (req, res) => {
