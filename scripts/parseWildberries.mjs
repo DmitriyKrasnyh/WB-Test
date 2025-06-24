@@ -1,12 +1,14 @@
 import fs from 'fs/promises';
-import { load } from "cheerio";
+import { load } from 'cheerio';
+import UserAgent from 'user-agents';
 
 const url = 'https://www.wildberries.ru/';
 
 async function fetchPage() {
+  const ua = new UserAgent().toString();
   const response = await fetch(url, {
     headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+      'User-Agent': ua,
       'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
     }
   });
