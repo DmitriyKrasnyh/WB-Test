@@ -32,8 +32,8 @@
 
 ```bash
 # 1. клон + .env (необязательно, всё по умолчанию)
-git clone https://github.com/<you>/wildberries-dashboard.git
-cd wildberries-dashboard
+https://github.com/DmitriyKrasnyh/WB-Test.git
+cd WB-Test
 
 # 2. продакшен в 3 контейнера
 docker compose up -d         # http://localhost:5173
